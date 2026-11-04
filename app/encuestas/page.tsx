@@ -46,11 +46,12 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { formatTimeAgo } from '@/lib/format';
-import { BARRIOS_LA_BANDA } from '@/lib/constants';
+import { useBarrios } from '@/lib/use-barrios';
 import { useAuth } from '@/lib/auth-context';
 import { cn } from '@/lib/utils';
 
 export default function EncuestasPage() {
+  const { nombres: barrioNombres } = useBarrios();
   const [encuestas, setEncuestas] = useState<EncuestaWithRelations[]>([]);
   const [juntas, setJuntas] = useState<Junta[]>([]);
   const [loading, setLoading] = useState(true);
@@ -243,7 +244,7 @@ export default function EncuestasPage() {
                           <SelectValue placeholder="Seleccionar" />
                         </SelectTrigger>
                         <SelectContent>
-                          {BARRIOS_LA_BANDA.map((b) => (
+                          {barrioNombres.map((b) => (
                             <SelectItem key={b} value={b}>{b}</SelectItem>
                           ))}
                         </SelectContent>

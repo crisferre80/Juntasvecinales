@@ -13,8 +13,8 @@ import {
 import { supabase } from '@/lib/supabase';
 import {
   FORO_CATEGORIAS,
-  BARRIOS_LA_BANDA,
 } from '@/lib/constants';
+import { useBarrios } from '@/lib/use-barrios';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -32,6 +32,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 export default function NuevoPostPage() {
+  const { nombres: barrioNombres } = useBarrios();
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [autor, setAutor] = useState('');
@@ -131,7 +132,7 @@ export default function NuevoPostPage() {
                         <SelectValue placeholder="Seleccionar barrio" />
                       </SelectTrigger>
                       <SelectContent>
-                        {BARRIOS_LA_BANDA.map((b) => (
+                        {barrioNombres.map((b) => (
                           <SelectItem key={b} value={b}>{b}</SelectItem>
                         ))}
                       </SelectContent>

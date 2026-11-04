@@ -11,6 +11,15 @@ export interface Junta {
   created_at: string;
 }
 
+export interface Barrio {
+  id: string;
+  nombre: string;
+  poligono: [number, number][];
+  centro_lat: number;
+  centro_lng: number;
+  created_at: string;
+}
+
 export interface Miembro {
   id: string;
   junta_id: string;

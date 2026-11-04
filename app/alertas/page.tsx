@@ -38,11 +38,13 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { formatTimeAgo } from '@/lib/format';
-import { BARRIOS_LA_BANDA, ALERTA_NIVELES, ALERTA_NIVEL_STYLES } from '@/lib/constants';
+import { ALERTA_NIVELES, ALERTA_NIVEL_STYLES } from '@/lib/constants';
+import { useBarrios } from '@/lib/use-barrios';
 import { useAuth } from '@/lib/auth-context';
 import { cn } from '@/lib/utils';
 
 export default function AlertasPage() {
+  const { nombres: barrioNombres } = useBarrios();
   const [alertas, setAlertas] = useState<Alerta[]>([]);
   const [juntas, setJuntas] = useState<Junta[]>([]);
   const [loading, setLoading] = useState(true);
@@ -188,7 +190,7 @@ export default function AlertasPage() {
                           <SelectValue placeholder="Seleccionar" />
                         </SelectTrigger>
                         <SelectContent>
-                          {BARRIOS_LA_BANDA.map((b) => (
+                          {barrioNombres.map((b) => (
                             <SelectItem key={b} value={b}>{b}</SelectItem>
                           ))}
                         </SelectContent>

@@ -15,7 +15,8 @@ import { supabase } from '@/lib/supabase';
 import { Junta, Alerta, ReporteFoto, NotaReclamo } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BARRIOS_LA_BANDA, BARRIO_COORDS, LA_BANDA_CENTER, ALERTA_NIVEL_STYLES } from '@/lib/constants';
+import { LA_BANDA_CENTER, ALERTA_NIVEL_STYLES } from '@/lib/constants';
+import { useBarrios } from '@/lib/use-barrios';
 import { cn } from '@/lib/utils';
 import type { MapMarkerData } from '@/components/leaflet-map';
 
@@ -31,6 +32,7 @@ const LeafletMap = dynamic(() => import('@/components/leaflet-map'), {
 type LayerType = 'juntas' | 'alertas' | 'reportes' | 'notas';
 
 export default function AdminMapaPage() {
+  const { barrios } = useBarrios();
   const [juntas, setJuntas] = useState<Junta[]>([]);
   const [alertas, setAlertas] = useState<Alerta[]>([]);
   const [reportes, setReportes] = useState<ReporteFoto[]>([]);
@@ -58,8 +60,8 @@ export default function AdminMapaPage() {
 
   const barrioCounts = useMemo(() => {
     const counts: Record<string, { juntas: number; juntasInactivas: number; alertas: number; reportes: number; notas: number }> = {};
-    BARRIOS_LA_BANDA.forEach((b) => {
-      counts[b] = { juntas: 0, juntasInactivas: 0, alertas: 0, reportes: 0, notas: 0 };
+    barrios.forEach((b) => {
+      counts[b.nombre] = { juntas: 0, juntasInactivas: 0, alertas: 0, reportes: 0, notas: 0 };
     });
     juntas.forEach((j) => {
       if (counts[j.barrio]) {
@@ -77,7 +79,7 @@ export default function AdminMapaPage() {
       if (n.barrio && counts[n.barrio]) counts[n.barrio].notas++;
     });
     return counts;
-  }, [juntas, alertas, reportes, notas]);
+  }, [barrios, juntas, alertas, reportes, notas]);
 
   const layerColors: Record<LayerType, string> = {
     juntas: 'primary',
@@ -87,23 +89,23 @@ export default function AdminMapaPage() {
   };
 
   const markers: MapMarkerData[] = useMemo(() => {
-    return BARRIOS_LA_BANDA.map((barrio) => {
-      const coords = BARRIO_COORDS[barrio];
-      const count = barrioCounts[barrio]?.[activeLayer] || 0;
+    return barrios.map((b) => {
+      const count = barrioCounts[b.nombre]?.[activeLayer] || 0;
       const color = count > 0 ? layerColors[activeLayer] : 'muted';
       const pulsing = activeLayer === 'alertas' && count >= 2;
       return {
-        id: barrio,
-        lat: coords.lat,
-        lng: coords.lng,
-        label: barrio,
+        id: b.nombre,
+        lat: b.centro_lat,
+        lng: b.centro_lng,
+        label: b.nombre,
         sublabel: `${count} ${activeLayer}`,
         color,
         count,
         pulsing,
+        polygon: b.poligono,
       };
-    }).filter((m) => BARRIO_COORDS[m.id]);
-  }, [barrioCounts, activeLayer, layerColors]);
+    });
+  }, [barrios, barrioCounts, activeLayer, layerColors]);
 
   const layers = [
     { key: 'juntas' as LayerType, label: 'Todas las Juntas', icon: Building2, color: 'bg-primary' },

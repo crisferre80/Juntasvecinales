@@ -13,7 +13,8 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Junta } from '@/lib/types';
-import { TIPOS_RECLAMO, BARRIOS_LA_BANDA } from '@/lib/constants';
+import { TIPOS_RECLAMO } from '@/lib/constants';
+import { useBarrios } from '@/lib/use-barrios';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -30,6 +31,7 @@ import {
 } from '@/components/ui/select';
 
 export default function NuevaNotaPage() {
+  const { nombres: barrioNombres } = useBarrios();
   const router = useRouter();
   const [juntas, setJuntas] = useState<Junta[]>([]);
   const [saving, setSaving] = useState(false);
@@ -151,7 +153,7 @@ export default function NuevaNotaPage() {
                         <SelectValue placeholder={selectedJunta?.barrio || 'Seleccionar barrio'} />
                       </SelectTrigger>
                       <SelectContent>
-                        {BARRIOS_LA_BANDA.map((b) => (
+                        {barrioNombres.map((b) => (
                           <SelectItem key={b} value={b}>{b}</SelectItem>
                         ))}
                       </SelectContent>

@@ -17,7 +17,7 @@ import {
   Info,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { BARRIOS_LA_BANDA } from '@/lib/constants';
+import { useBarrios } from '@/lib/use-barrios';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -44,6 +44,7 @@ interface FounderForm {
 const emptyFounder: FounderForm = { nombre: '', dni: '', direccion: '', telefono: '' };
 
 export default function NuevaJuntaPage() {
+  const { nombres: barrioNombres } = useBarrios();
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [nombre, setNombre] = useState('');
@@ -192,7 +193,7 @@ export default function NuevaJuntaPage() {
                         <SelectValue placeholder="Seleccionar barrio" />
                       </SelectTrigger>
                       <SelectContent>
-                        {BARRIOS_LA_BANDA.map((b) => (
+                        {barrioNombres.map((b) => (
                           <SelectItem key={b} value={b}>
                             {b}
                           </SelectItem>

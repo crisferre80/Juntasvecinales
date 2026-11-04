@@ -11,7 +11,7 @@ import {
   Camera,
   MessageSquare,
   Map,
-  ArrowLeft,
+  MapPin,  ArrowLeft,
   Shield,
 } from 'lucide-react';
 
@@ -22,6 +22,7 @@ const adminNav = [
   { href: '/admin/reportes', label: 'Reportes', icon: Camera },
   { href: '/admin/foro', label: 'Foro Municipal', icon: MessageSquare },
   { href: '/admin/mapa', label: 'Mapa Completo', icon: Map },
+  { href: '/admin/barrios', label: 'Barrios', icon: MapPin },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

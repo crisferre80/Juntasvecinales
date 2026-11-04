@@ -1,7 +1,3 @@
-export const BARRIOS_LA_BANDA = [
-  
-] as const;
-
 export const FORO_CATEGORIAS = [
   'Problemática',
   'Propuesta de Solución',
@@ -61,8 +57,5 @@ export const APOYO_STYLES: Record<string, { active: string; inactive: string; ic
   'Apoyar reclamo': { active: 'bg-red-600 text-white border-red-600', inactive: 'border-red-200 text-red-700 hover:bg-red-50', icon: 'hand' },
   'Me interesa': { active: 'bg-blue-600 text-white border-blue-600', inactive: 'border-blue-200 text-blue-700 hover:bg-blue-50', icon: 'thumbs-up' },
 };
-
-// Approximate lat/lng for barrios in La Banda for map placement
-
 
 export const LA_BANDA_CENTER = { lat: -27.75, lng: -64.26 };

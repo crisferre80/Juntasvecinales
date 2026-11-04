@@ -13,6 +13,7 @@ export interface MapMarkerData {
   color: string;
   count?: number;
   pulsing?: boolean;
+  polygon?: [number, number][];
 }
 
 interface LeafletMapProps {
@@ -35,6 +36,7 @@ export default function LeafletMap({ center, markers, onMarkerClick, selectedId 
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<Record<string, L.Marker>>({});
+  const polygonsRef = useRef<L.Polygon[]>([]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -55,8 +57,8 @@ export default function LeafletMap({ center, markers, onMarkerClick, selectedId 
 
     return () => {
       map.remove();
-      mapRef.current = null;
       markersRef.current = {};
+      polygonsRef.current = [];
     };
   }, [center.lat, center.lng]);
 
@@ -66,9 +68,24 @@ export default function LeafletMap({ center, markers, onMarkerClick, selectedId 
 
     Object.values(markersRef.current).forEach((m) => m.remove());
     markersRef.current = {};
+    polygonsRef.current.forEach((p) => p.remove());
+    polygonsRef.current = [];
 
     markers.forEach((marker) => {
       const color = colorMap[marker.color] || colorMap.muted;
+
+      if (marker.polygon && marker.polygon.length >= 3) {
+        const poly = L.polygon(marker.polygon, {
+          color,
+          weight: selectedId === marker.id ? 3 : 2,
+          fillColor: color,
+          fillOpacity: marker.count && marker.count > 0 ? 0.3 : 0.12,
+        }).addTo(map);
+        poly.on('click', () => {
+          if (onMarkerClick) onMarkerClick(marker.id);
+        });
+        polygonsRef.current.push(poly);
+      }
       const size = marker.count && marker.count >= 3 ? 26 : marker.count && marker.count >= 2 ? 22 : 18;
       const ring = selectedId === marker.id ? '#0d7c66' : '#ffffff';
 
