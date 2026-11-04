@@ -1,24 +1,5 @@
 export const BARRIOS_LA_BANDA = [
-  'Centro',
-  'Barrio Obrero',
-  'Santa Catalina',
-  'Belgrano',
-  'Sarmiento',
-  'General Paz',
-  'Mitre',
-  'San Martín',
-  'Rivadavia',
-  'Alberdi',
-  'Indio Muerto',
-  'El Ceibo',
-  'San Fernando',
-  'Costa de la Quebrada',
-  'Juan Manuel de Rosas',
-  'Mariano Moreno',
-  'Villa Dorada',
-  'La Banda Este',
-  'Autódromo',
-  'Campamento',
+  
 ] as const;
 
 export const FORO_CATEGORIAS = [
@@ -82,27 +63,6 @@ export const APOYO_STYLES: Record<string, { active: string; inactive: string; ic
 };
 
 // Approximate lat/lng for barrios in La Banda for map placement
-export const BARRIO_COORDS: Record<string, { lat: number; lng: number }> = {
-  Centro: { lat: -27.749, lng: -64.261 },
-  'Barrio Obrero': { lat: -27.745, lng: -64.255 },
-  'Santa Catalina': { lat: -27.738, lng: -64.248 },
-  Belgrano: { lat: -27.754, lng: -64.268 },
-  Sarmiento: { lat: -27.742, lng: -64.272 },
-  'General Paz': { lat: -27.735, lng: -64.265 },
-  Mitre: { lat: -27.758, lng: -64.255 },
-  'San Martín': { lat: -27.732, lng: -64.258 },
-  Rivadavia: { lat: -27.762, lng: -64.275 },
-  Alberdi: { lat: -27.740, lng: -64.282 },
-  'Indio Muerto': { lat: -27.728, lng: -64.245 },
-  'El Ceibo': { lat: -27.768, lng: -64.250 },
-  'San Fernando': { lat: -27.751, lng: -64.290 },
-  'Costa de la Quebrada': { lat: -27.772, lng: -64.270 },
-  'Juan Manuel de Rosas': { lat: -27.730, lng: -64.285 },
-  'Mariano Moreno': { lat: -27.765, lng: -64.285 },
-  'Villa Dorada': { lat: -27.758, lng: -64.242 },
-  'La Banda Este': { lat: -27.745, lng: -64.235 },
-  Autódromo: { lat: -27.774, lng: -64.292 },
-  Campamento: { lat: -27.780, lng: -64.260 },
-};
+
 
 export const LA_BANDA_CENTER = { lat: -27.75, lng: -64.26 };
